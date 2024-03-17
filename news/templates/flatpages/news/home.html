@@ -1,0 +1,10 @@
+{% extends 'flatpages/news/default.html'%}
+
+{% block content %}
+   <div class="features">
+       <h1> Новости  </h1>
+       <p>{{ category }}</p>
+       <a href="{% url 'news' %}"><button class="btn btn-warning"> Подробнее </button></a>
+
+   </div>
+{% endblock %}

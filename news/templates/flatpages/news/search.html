@@ -1,0 +1,80 @@
+{% extends 'flatpages/news/default.html'%}
+{% load custom_censor %}
+{% load custom_tags %}
+
+{% block content %}
+
+
+<div class="features">
+       <h1> Поиск  </h1>
+       <hr>
+      <form action="" method="get">
+       {# Переменная, которую мы передали через контекст, может сгенерировать нам форму с полями #}
+       {{ filterset.form.as_p }}
+        {# Добавим кнопку отправки данных формы #}
+
+        <input type="submit" value="Найти" />
+    </form>
+
+       <div class="table">
+   <p>{% if news %}
+
+       <table>
+           <tr>
+               <td>Заголовок</td>
+               <td>Время</td>
+               <td>Содержание</td>
+               <td>Рейтинг</td>
+               <td>Автор</td>
+
+           </tr>
+
+
+           {% for post in news %}
+           <tr>
+
+               <td>{{ post.header | censor}}</td>
+               <td>{{ post.time_in | date:'d M Y' }}</td>
+               <td>{{ post.content|truncatewords:10 }}</td>
+               <td>{{ post.rating }}</td>
+               <td>{{ post.author.full_name }}</td>
+
+           {% endfor %}
+
+       </table>
+       </div>
+   {% else %}
+       <h2>Новостей нет!</h2>
+   {% endif %}
+</p>
+
+
+   </div>
+
+   <div class="pagin">
+
+      {% if page_obj.has_previous %}
+       <a href="?{% url_replace page=1 %}">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+       <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {# Информация о текущей странице #}
+   {{ page_obj.number }}
+
+   {# Информация о следующих страницах #}
+       {% if page_obj.has_next %}
+       <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+       <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+
+   </div>>
+
+
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'flatpages/news/default.html'%}
+<!-- Название у нас будет Product -->
+
+{% block content %}
+   <div class="features">
+       <h1> Новость  </h1>
+       <p>  <h3>{{ post.header }}</h3>
+               <h4>{{ post.time_in | date:'d M Y' }}</h4>
+               <h6>{{ post.content }}</h6>
+               <h6>{{ post }}</h6>
+
+
+
+   </div>
+{% endblock %}
